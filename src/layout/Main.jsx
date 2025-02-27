@@ -1,50 +1,42 @@
-import React from "react";
+import React, {useState ,useEffect} from "react";
 import { Movies } from "../components/Movies";
 import { Search } from "../components/Search";
 import { Preloader } from "../components/Preloader";
 import { searchMoviesByTitle } from "../utils/api";
 
-class Main extends React.Component {
-    state = {
-        movies: [],
-        loading: true,
-    };
+const INITIAL_SEARCH = 'terminator';
 
-    componentDidMount() {
-        searchMoviesByTitle("terminator")
-            .then((data) => {
-                const movies = data.Search || [];
-                this.setState({ movies, loading: false });
-            })
-            .catch((error) => {
-                console.error("Ошибка при загрузке фильмов:", error);
-            });
-    }
+const Main = () => {
+    const [movies, setMovies] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    handleSearch = (search, type) => {
-        this.setState({ loading: true });
+    const handleSearch = (search, type) => {
+        setLoading(true);
         searchMoviesByTitle(search, type)
             .then((data) => {
                 const movies = data.Search || [];
-                this.setState({ movies, loading: false });
+                setMovies(movies);
+                setLoading(false);
             })
             .catch((error) => {
                 console.error("Ошибка при загрузке фильмов:", error);
-                this.setState({ loading: false });
+                setLoading(false);
             });
     };
 
-    render() {
-        const { movies, loading } = this.state;
-        return (
-            <main>
-                <div className="container content">
-                    <Search handleSearch={this.handleSearch} />
-                    {loading ? <Preloader /> : <Movies movies={movies} />}
-                </div>
-            </main>
-        );
-    }
-}
+    useEffect(() => {
+        handleSearch(INITIAL_SEARCH);
+    }, [])
 
-export { Main };
+    return (
+        <main>
+            <div className="container content">
+                <Search handleSearch={handleSearch} />
+                {loading ? <Preloader /> : <Movies movies={movies} />}
+            </div>
+        </main> 
+    
+    )
+};
+
+export {Main};
