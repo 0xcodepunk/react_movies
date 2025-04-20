@@ -33,6 +33,6 @@
 
 Приложение будет доступно по адресу [http://localhost:3000](http://localhost:3000)
 
-Посмотреть публичную версию можно по адресу: [https://1329474.github.io/react_movies/](https://1329474.github.io/react_movies/)
+Посмотреть публичную версию можно по адресу: [https://0xcodepunk.github.io/react_movies/](https://0xcodepunk.github.io/react_movies/)
 
 
